@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
+import { useState, ChangeEvent, FormEvent } from "react";
 import * as Label from "@radix-ui/react-label";
 import { generateICSFile, EventData } from "@/lib/ics-generator";
 
@@ -9,9 +8,23 @@ export default function Home() {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [extractedData, setExtractedData] = useState<EventData | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editableData, setEditableData] = useState<EventData>({ 
+    title: "", 
+    startDate: "", 
+    startTime: "", 
+    location: "", 
+    description: "" 
+  });
+  const [showResults, setShowResults] = useState(false);
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setEditableData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  
   const handleExtractData = async () => {
     if (!inputText.trim()) {
       setError("Por favor, ingresa un texto para procesar");
@@ -35,8 +48,14 @@ export default function Home() {
       }
 
       const data = await response.json();
-      setExtractedData(data);
-      setDialogOpen(true);
+      setEditableData({
+        title: data.title || "",
+        startDate: data.startDate || "",
+        startTime: data.startTime || "",
+        location: data.location || "",
+        description: data.description || ""
+      });
+      setShowResults(true);
     } catch (err) {
       setError("Ocurrió un error al procesar el texto. Intenta nuevamente.");
       console.error(err);
@@ -45,11 +64,10 @@ export default function Home() {
     }
   };
 
-  const handleDownloadICS = () => {
+  const handleDownloadICS = (e: FormEvent) => {
+    e.preventDefault();
     try {
-      if (!extractedData) return;
-
-      const icsContent = generateICSFile(extractedData);
+      const icsContent = generateICSFile(editableData);
       
       // Crear un blob con el contenido ICS
       const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
@@ -60,7 +78,7 @@ export default function Home() {
       // Crear enlace y descargar
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `${extractedData.title || "evento"}.ics`);
+      link.setAttribute("download", `${editableData.title || "evento"}.ics`);
       document.body.appendChild(link);
       link.click();
       
@@ -68,7 +86,8 @@ export default function Home() {
       link.parentNode?.removeChild(link);
       window.URL.revokeObjectURL(url);
       
-      setDialogOpen(false);
+      // Puedes elegir si quieres ocultar los resultados después de descargar
+      // setShowResults(false);
     } catch (err) {
       setError("Error al generar el archivo ICS");
       console.error(err);
@@ -126,62 +145,114 @@ export default function Home() {
                 "Procesar texto"
               )}
             </button>
+            
+            {showResults && (
+              <div className="mt-10 pt-6 border-t border-foreground/10">
+                <h2 className="text-xl font-bold mb-6">Información extraída</h2>
+                
+                <form onSubmit={handleDownloadICS} className="space-y-4">
+                  <div>
+                    <Label.Root
+                      className="text-sm font-medium mb-2 block"
+                      htmlFor="title"
+                    >
+                      Título
+                    </Label.Root>
+                    <input
+                      id="title"
+                      name="title"
+                      type="text"
+                      className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                      value={editableData.title}
+                      onChange={handleInputChange}
+                      placeholder="Título del evento"
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <Label.Root
+                        className="text-sm font-medium mb-2 block"
+                        htmlFor="startDate"
+                      >
+                        Fecha
+                      </Label.Root>
+                      <input
+                        id="startDate"
+                        name="startDate"
+                        type="date"
+                        className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                        value={editableData.startDate}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label.Root
+                        className="text-sm font-medium mb-2 block"
+                        htmlFor="startTime"
+                      >
+                        Hora
+                      </Label.Root>
+                      <input
+                        id="startTime"
+                        name="startTime"
+                        type="time"
+                        className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                        value={editableData.startTime}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label.Root
+                      className="text-sm font-medium mb-2 block"
+                      htmlFor="location"
+                    >
+                      Ubicación
+                    </Label.Root>
+                    <input
+                      id="location"
+                      name="location"
+                      type="text"
+                      className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                      value={editableData.location}
+                      onChange={handleInputChange}
+                      placeholder="Ubicación del evento"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label.Root
+                      className="text-sm font-medium mb-2 block"
+                      htmlFor="description"
+                    >
+                      Descripción
+                    </Label.Root>
+                    <textarea
+                      id="description"
+                      name="description"
+                      className="w-full h-24 p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                      value={editableData.description}
+                      onChange={handleInputChange}
+                      placeholder="Descripción o detalles adicionales"
+                    />
+                  </div>
+                  
+                  <button 
+                    type="submit"
+                    className="w-full py-3 px-4 rounded-lg bg-foreground text-background font-medium hover:opacity-90 transition-opacity"
+                  >
+                    Descargar archivo .ICS
+                  </button>
+                </form>
+              </div>
+            )}
           </div>
         </main>
 
-        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-          <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
-            <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-xl border border-foreground/10 shadow-xl w-[90vw] max-w-md max-h-[85vh] p-6">
-              <Dialog.Title className="text-xl font-bold mb-4">
-                Información extraída
-              </Dialog.Title>
-              
-              {extractedData && (
-                <div className="space-y-4 mb-6 text-sm">
-                  <div>
-                    <div className="font-medium opacity-70 mb-1">Título</div>
-                    <div>{extractedData.title || "No detectado"}</div>
-                  </div>
-                  <div>
-                    <div className="font-medium opacity-70 mb-1">Fecha</div>
-                    <div>{extractedData.startDate || "No detectada"}</div>
-                  </div>
-                  <div>
-                    <div className="font-medium opacity-70 mb-1">Hora</div>
-                    <div>{extractedData.startTime || "No detectada"}</div>
-                  </div>
-                  <div>
-                    <div className="font-medium opacity-70 mb-1">Ubicación</div>
-                    <div>{extractedData.location || "No detectada"}</div>
-                  </div>
-                  {extractedData.description && (
-                    <div>
-                      <div className="font-medium opacity-70 mb-1">Descripción</div>
-                      <div>{extractedData.description}</div>
-                    </div>
-                  )}
-                </div>
-              )}
-              
-              <div className="flex gap-3 justify-end">
-                <Dialog.Close asChild>
-                  <button 
-                    className="px-4 py-2 rounded-lg border border-foreground/10 text-sm hover:bg-foreground/5 transition-colors"
-                  >
-                    Cancelar
-                  </button>
-                </Dialog.Close>
-                <button 
-                  className="px-4 py-2 rounded-lg bg-foreground text-background text-sm hover:opacity-90 transition-opacity"
-                  onClick={handleDownloadICS}
-                >
-                  Descargar .ICS
-                </button>
-              </div>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
+
 
         <footer className="mt-10 text-center text-xs opacity-60 pt-4 border-t border-foreground/10">
           <p>Construido con Next.js, Tailwind CSS y IA</p>
