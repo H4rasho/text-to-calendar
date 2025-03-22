@@ -95,27 +95,31 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-3xl mx-auto p-6 sm:p-10">
+    <div className="min-h-screen bg-gradient-to-br from-[var(--background)] via-[#151e19] to-[color-mix(in_srgb,var(--background),var(--accent)_20%)] text-[var(--foreground)] relative overflow-hidden">
+      {/* Capa decorativa con efecto radial */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(32,121,71,0.15),transparent_60%)]" aria-hidden="true"></div>
+      
+      {/* Contenido principal */}
+      <div className="relative z-10 max-w-3xl mx-auto p-6 sm:p-10">
         <header className="mb-10 text-center">
-          <h1 className="text-3xl font-bold mb-2">Texto a Calendario</h1>
-          <p className="text-sm opacity-70">
+          <h1 className="text-3xl font-bold mb-2 text-[var(--accent-light)]">Texto a Calendario</h1>
+          <p className="text-sm text-[var(--gray)]">
             Convierte descripciones de texto a archivos de calendario (.ics) usando IA
           </p>
         </header>
 
-        <main className="rounded-xl border border-foreground/10 p-6 bg-foreground/[0.02] backdrop-blur-md">
+        <main className="rounded-xl border border-[var(--accent)]/30 p-6 bg-[rgba(32,121,71,0.08)] backdrop-blur-sm shadow-[0_4px_20px_rgba(32,121,71,0.15)]">
           <div className="space-y-6">
             <div>
               <Label.Root
-                className="text-sm font-medium mb-2 block"
+                className="text-sm font-medium mb-2 block text-[var(--gray-light)]"
                 htmlFor="event-text"
               >
                 Texto del evento
               </Label.Root>
               <textarea
                 id="event-text"
-                className="w-full h-40 p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                className="w-full h-40 p-3 rounded-lg bg-[#1a1a1a] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
                 placeholder="Ingresa la descripción del evento (ej: Recuerda que tienes una hora para Laboratorio, el día Sábado 22 de marzo de 2025...)"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
@@ -129,13 +133,13 @@ export default function Home() {
             )}
 
             <button
-              className="w-full py-3 px-4 rounded-lg bg-foreground text-background font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-full py-3 px-4 rounded-lg bg-[var(--accent)] text-[var(--accent-foreground)] font-medium hover:bg-[var(--accent-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               onClick={handleExtractData}
               disabled={isLoading || !inputText.trim()}
             >
               {isLoading ? (
                 <span className="flex items-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-background" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-[var(--foreground)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -147,13 +151,13 @@ export default function Home() {
             </button>
             
             {showResults && (
-              <div className="mt-10 pt-6 border-t border-foreground/10">
-                <h2 className="text-xl font-bold mb-6">Información extraída</h2>
+              <div className="mt-10 pt-6 border-t border-[var(--accent)]/20">
+                <h2 className="text-xl font-bold mb-6 text-[var(--accent-light)]">Información extraída</h2>
                 
                 <form onSubmit={handleDownloadICS} className="space-y-4">
                   <div>
                     <Label.Root
-                      className="text-sm font-medium mb-2 block"
+                      className="text-sm font-medium mb-2 block text-[var(--gray-light)]"
                       htmlFor="title"
                     >
                       Título
@@ -162,7 +166,7 @@ export default function Home() {
                       id="title"
                       name="title"
                       type="text"
-                      className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                      className="w-full p-3 rounded-lg bg-[#1a1a1a] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
                       value={editableData.title}
                       onChange={handleInputChange}
                       placeholder="Título del evento"
@@ -172,7 +176,7 @@ export default function Home() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label.Root
-                        className="text-sm font-medium mb-2 block"
+                        className="text-sm font-medium mb-2 block text-[var(--gray-light)]"
                         htmlFor="startDate"
                       >
                         Fecha
@@ -181,7 +185,7 @@ export default function Home() {
                         id="startDate"
                         name="startDate"
                         type="date"
-                        className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                        className="w-full p-3 rounded-lg bg-[#1a1a1a] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
                         value={editableData.startDate}
                         onChange={handleInputChange}
                       />
@@ -189,7 +193,7 @@ export default function Home() {
                     
                     <div>
                       <Label.Root
-                        className="text-sm font-medium mb-2 block"
+                        className="text-sm font-medium mb-2 block text-[var(--gray-light)]"
                         htmlFor="startTime"
                       >
                         Hora
@@ -198,7 +202,7 @@ export default function Home() {
                         id="startTime"
                         name="startTime"
                         type="time"
-                        className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                        className="w-full p-3 rounded-lg bg-[#1a1a1a] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
                         value={editableData.startTime}
                         onChange={handleInputChange}
                       />
@@ -207,7 +211,7 @@ export default function Home() {
                   
                   <div>
                     <Label.Root
-                      className="text-sm font-medium mb-2 block"
+                      className="text-sm font-medium mb-2 block text-[var(--gray-light)]"
                       htmlFor="location"
                     >
                       Ubicación
@@ -216,7 +220,7 @@ export default function Home() {
                       id="location"
                       name="location"
                       type="text"
-                      className="w-full p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                      className="w-full p-3 rounded-lg bg-[#1a1a1a] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
                       value={editableData.location}
                       onChange={handleInputChange}
                       placeholder="Ubicación del evento"
@@ -225,7 +229,7 @@ export default function Home() {
                   
                   <div>
                     <Label.Root
-                      className="text-sm font-medium mb-2 block"
+                      className="text-sm font-medium mb-2 block text-[var(--gray-light)]"
                       htmlFor="description"
                     >
                       Descripción
@@ -233,7 +237,7 @@ export default function Home() {
                     <textarea
                       id="description"
                       name="description"
-                      className="w-full h-24 p-3 rounded-lg bg-background border border-foreground/10 focus:ring-2 focus:ring-foreground/20 focus:outline-none focus:border-foreground/30 transition duration-200"
+                      className="w-full h-24 p-3 rounded-lg bg-[#1a1a1a] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
                       value={editableData.description}
                       onChange={handleInputChange}
                       placeholder="Descripción o detalles adicionales"
@@ -242,7 +246,7 @@ export default function Home() {
                   
                   <button 
                     type="submit"
-                    className="w-full py-3 px-4 rounded-lg bg-foreground text-background font-medium hover:opacity-90 transition-opacity"
+                    className="w-full py-3 px-4 rounded-lg bg-[var(--accent)] text-[var(--accent-foreground)] font-medium hover:bg-[var(--accent-hover)] transition-colors"
                   >
                     Descargar archivo .ICS
                   </button>
@@ -252,9 +256,7 @@ export default function Home() {
           </div>
         </main>
 
-
-
-        <footer className="mt-10 text-center text-xs opacity-60 pt-4 border-t border-foreground/10">
+        <footer className="mt-10 text-center text-xs text-[var(--gray)] pt-4 border-t border-[var(--accent)]/20">
           <p>Construido con Next.js, Tailwind CSS y IA</p>
         </footer>
       </div>
