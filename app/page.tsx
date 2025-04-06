@@ -114,22 +114,6 @@ export default function Home() {
       {/* Contenido principal */}
       <div className="relative z-10 max-w-3xl mx-auto p-6 sm:p-10">
         <header className="mb-10 text-center relative">
-          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-16 h-16 rounded-full bg-gradient-to-r from-[#4B66EA] to-[#7085F2] flex items-center justify-center shadow-lg">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-          </div>
           <div className="pt-10 pb-2">
             <h1 className="text-3xl font-bold mb-2 text-foreground bg-clip-text text-transparent bg-gradient-to-r from-[#192B5D] to-[#4B66EA]">
               Texto a Calendario
