@@ -1,27 +1,28 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #111111;
-  --foreground: #ffffff;
-  --gray: #8B8D98;
-  --gray-light: #a5a7b0;
-  --gray-dark: #6e7080;
-  --accent: #207947;
-  --accent-light: #2a9d5d;
-  --accent-dark: #176035;
+  --background: #f2f5ff;
+  --foreground: #192b5d;
+  --card: #192b5d;
+  --gray: #8d99bc;
+  --gray-light: #b1bada;
+  --gray-dark: #495f8c;
+  --accent: #4b66ea;
+  --accent-light: #7085f2;
+  --accent-dark: #2e4bd5;
   --accent-foreground: #ffffff;
-  --accent-hover: #176035;
+  --accent-hover: #2e4bd5;
   --accent-foreground-hover: #ffffff;
-  --accent-50: rgba(32, 121, 71, 0.05);
-  --accent-100: rgba(32, 121, 71, 0.1);
-  --accent-200: rgba(32, 121, 71, 0.2);
-  --accent-300: rgba(32, 121, 71, 0.3);
-  --accent-400: rgba(32, 121, 71, 0.4);
-  --accent-500: rgba(32, 121, 71, 0.5);
-  --accent-600: rgba(32, 121, 71, 0.6);
-  --accent-700: rgba(32, 121, 71, 0.7);
-  --accent-800: rgba(32, 121, 71, 0.8);
-  --accent-900: rgba(32, 121, 71, 0.9);
+  --accent-50: rgba(75, 102, 234, 0.05);
+  --accent-100: rgba(75, 102, 234, 0.1);
+  --accent-200: rgba(75, 102, 234, 0.2);
+  --accent-300: rgba(75, 102, 234, 0.3);
+  --accent-400: rgba(75, 102, 234, 0.4);
+  --accent-500: rgba(75, 102, 234, 0.5);
+  --accent-600: rgba(75, 102, 234, 0.6);
+  --accent-700: rgba(75, 102, 234, 0.7);
+  --accent-800: rgba(75, 102, 234, 0.8);
+  --accent-900: rgba(75, 102, 234, 0.9);
 }
 
 @theme inline {
