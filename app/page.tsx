@@ -260,7 +260,7 @@ export default function Home() {
                       name="title"
                       type="text"
                       className="w-full p-3 rounded-lg bg-[#ffffff] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
-                      value={editableData.title}
+                      value={editableData.title || ''}
                       onChange={handleInputChange}
                       placeholder="Título del evento"
                     />
@@ -279,7 +279,7 @@ export default function Home() {
                         name="startDate"
                         type="date"
                         className="w-full p-3 rounded-lg bg-[#ffffff] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
-                        value={editableData.startDate}
+                        value={editableData.startDate || ''}
                         onChange={handleInputChange}
                       />
                     </div>
@@ -296,7 +296,7 @@ export default function Home() {
                         name="startTime"
                         type="time"
                         className="w-full p-3 rounded-lg bg-[#ffffff] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
-                        value={editableData.startTime}
+                        value={editableData.startTime || ''}
                         onChange={handleInputChange}
                       />
                     </div>
@@ -314,7 +314,7 @@ export default function Home() {
                       name="location"
                       type="text"
                       className="w-full p-3 rounded-lg bg-[#ffffff] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
-                      value={editableData.location}
+                      value={editableData.location || ''}
                       onChange={handleInputChange}
                       placeholder="Ubicación del evento"
                     />
@@ -330,10 +330,10 @@ export default function Home() {
                     <textarea
                       id="description"
                       name="description"
-                      className="w-full h-24 p-3 rounded-lg bg-[#ffffff] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)]"
-                      value={editableData.description}
+                      className="w-full p-3 rounded-lg bg-[#ffffff] border border-[var(--accent)]/30 focus:ring-2 focus:ring-[var(--accent)]/40 focus:outline-none focus:border-[var(--accent)] transition duration-200 text-[var(--foreground)] min-h-[120px]"
+                      value={editableData.description || ''}
                       onChange={handleInputChange}
-                      placeholder="Descripción o detalles adicionales"
+                      placeholder="Descripción del evento"
                     />
                   </div>
 
